@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-// routes controllers
+// routes controller
 const storeController = require('../controllers/storeController');
 
 // Do work here
