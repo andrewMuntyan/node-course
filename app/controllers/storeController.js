@@ -1,21 +1,33 @@
 const mongoose = require('mongoose');
 const Store = mongoose.model('Store');
 
-exports.homePage = (req, res) => {
-  res.render('index');
+
+exports.getStores = async (req, res) => {
+  // 1. Query database for list of stores
+  const stores = await Store.find();
+  res.render('stores', { title: 'Stores', stores});
 };
 
-exports.addStore = (req, res) => {
+
+exports.showAddStoreForm = (req, res) => {
   res.render('editStore', { title: 'Add Store'});
 };
-
-exports.createStore = async (req, res) => {
+exports.createStoreAction = async (req, res) => {
   const store = await (new Store(req.body)).save();
   req.flash('success', `Successfully created ${store.name}. Care to leave review`);
   res.redirect('/stores');
 };
 
-exports.updateStore = async (req, res) => {
+
+exports.showEditStoreForm = async (req, res) => {
+  // 1. Query database for store by id
+  const store = await Store.findOne({ _id: req.params.id });
+  // 2. owner for the store?
+  // 3. render edit form  
+  res.render('editStore', { title: `Edit ${store.name}`, store});
+};
+
+exports.updateStoreAction = async (req, res) => {
   // 1. find and update the store
   const store = await Store.findOneAndUpdate(
     { _id: req.params.id },
@@ -30,16 +42,3 @@ exports.updateStore = async (req, res) => {
   res.redirect(`/stores/${store._id}/edit`);
 };
 
-exports.getStores = async (req, res) => {
-  // 1. Query database
-  const stores = await Store.find();
-  res.render('stores', { title: 'Stores', stores});
-};
-
-exports.editStore = async (req, res) => {
-  // 1. Query database for store by id
-  // 2. owner for the store?
-  // 3. render edit form
-  const store = await Store.findOne({ _id: req.params.id });
-  res.render('editStore', { title: `Edit ${store.name}`, store});
-};
