@@ -7,10 +7,19 @@ const { catchErrors } = require('../handlers/errorHandlers');
 // routes controller
 const storeController = require('../controllers/storeController');
 
-// Do work here
+// Display stores
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
+
+// add store form
 router.get('/add', storeController.addStore);
+// add store form action
 router.post('/add', catchErrors(storeController.createStore));
+
+// edit store form
+router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+// edit store form action
+router.post('/add/:id', catchErrors(storeController.updateStore));
+
 
 module.exports = router;
