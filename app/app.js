@@ -44,9 +44,6 @@ app.use(session({
 }));
 
 
-
-
-
 // // Passport JS is what we use to handle our logins
 app.use(passport.initialize());
 app.use(passport.session());

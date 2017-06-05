@@ -16,11 +16,11 @@ const reviews = JSON.parse(fs.readFileSync(__dirname + '/reviews.json', 'utf-8')
 const users = JSON.parse(fs.readFileSync(__dirname + '/users.json', 'utf-8'));
 
 async function deleteData() {
-	console.log('😢😢 Goodbye Data...'); // eslint-disable-line
+  console.log('😢😢 Goodbye Data...'); // eslint-disable-line
   await Store.remove();
   await Review.remove();
   await User.remove();
-	console.log('Data Deleted. To load sample data, run\n\n\t npm run sample\n\n'); // eslint-disable-line
+  console.log('Data Deleted. To load sample data, run\n\n\t npm run sample\n\n'); // eslint-disable-line
   process.exit();
 }
 
@@ -29,11 +29,11 @@ async function loadData() {
     await Store.insertMany(stores);
     await Review.insertMany(reviews);
     await User.insertMany(users);
-		console.log('👍👍👍👍👍👍👍👍 Done!'); // eslint-disable-line
+    console.log('👍👍👍👍👍👍👍👍 Done!'); // eslint-disable-line
     process.exit();
   } catch(e) {
-		console.log('\n👎👎👎👎👎👎👎👎 Error! The Error info is below but if you are importing sample data make sure to drop the existing database first with.\n\n\t npm run blowitallaway\n\n\n'); // eslint-disable-line
-		console.log(e);// eslint-disable-line
+    console.log('\n👎👎👎👎👎👎👎👎 Error! The Error info is below but if you are importing sample data make sure to drop the existing database first with.\n\n\t npm run blowitallaway\n\n\n'); // eslint-disable-line
+    console.log(e);// eslint-disable-line
     process.exit();
   }
 }
