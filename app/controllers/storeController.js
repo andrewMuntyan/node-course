@@ -1,6 +1,23 @@
+// db connector
 const mongoose = require('mongoose');
+// db model
 const Store = mongoose.model('Store');
-
+// uploader
+const multer = require('multer');
+const multerOptions = {
+  storage: multer.memoryStorage(),
+  fileFilter(req, file, next) {
+    const isPhoto = file.mimetype.startsWith('image/');
+    if (isPhoto) {
+      next(null, true);
+    } else {
+      next({ message: 'That filetype isn\'t allowed!' });
+    }
+  }
+};
+// resize images
+const jimp = require('jimp');
+const uuid = require('uuid');
 
 exports.getStores = async (req, res) => {
   // 1. Query database for list of stores
@@ -18,6 +35,25 @@ exports.createStoreAction = async (req, res) => {
   res.redirect('/stores');
 };
 
+// upload middlewar
+exports.upload = multer(multerOptions).single('photo');
+
+// resize middlewar
+exports.resize = async (req, res, next) => {
+  // check if there is no new fire to resize
+  if (!req.file) {
+    next(); // skip to the next middleware
+  }
+  const extension = req.file.mimetype.split('/')[1];
+  req.body.photo = `${uuid.v4()}.${extension}`;
+  // do resizing
+  const photo = await jimp.read(req.file.buffer);
+  await photo.resize(800, jimp.AUTO);
+  await photo.write(`./public/uploads/${req.body.photo}`);
+  // after we have written photo to filesystem
+  next();
+};
+
 
 exports.showEditStoreForm = async (req, res) => {
   // 1. Query database for store by id
@@ -26,7 +62,6 @@ exports.showEditStoreForm = async (req, res) => {
   // 3. render edit form  
   res.render('editStore', { title: `Edit ${store.name}`, store});
 };
-
 exports.updateStoreAction = async (req, res) => {
   // set the location data to be the point
   req.body.location.type = 'Point';

@@ -14,15 +14,28 @@ router.get('/stores', catchErrors(storeController.getStores));
 
 
 // add store form
-router.get('/add', storeController.showAddStoreForm);
+router.get(
+  '/add',
+  storeController.showAddStoreForm
+);
 // add store form action
-router.post('/add', catchErrors(storeController.createStoreAction));
+router.post(
+  '/add',
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.createStoreAction)
+);
 
 
 // edit store form
 router.get('/stores/:id/edit', catchErrors(storeController.showEditStoreForm));
 // edit store form action
-router.post('/add/:id', catchErrors(storeController.updateStoreAction));
+router.post(
+  '/add/:id',
+  storeController.upload,
+  catchErrors(storeController.resize),
+  catchErrors(storeController.updateStoreAction)
+);
 
 
 module.exports = router;
