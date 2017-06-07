@@ -36,7 +36,7 @@ mixin storeForm(store = {})
 
 
     - const choices = ['Wifi', 'Open Late', 'Family Friendly', 'Vegeterian', 'Licensed']
-    - const tags = store.tags || [];
+    - const tags = store.tags || []
     label(for="tags") Tags
     ul.tags#tags
       each choice in choices
