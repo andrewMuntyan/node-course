@@ -37,5 +37,8 @@ router.post(
   catchErrors(storeController.updateStoreAction)
 );
 
+// display single store page
+router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
+
 
 module.exports = router;

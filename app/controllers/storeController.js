@@ -79,3 +79,13 @@ exports.updateStoreAction = async (req, res) => {
   res.redirect(`/stores/${store._id}/edit`);
 };
 
+
+// display single store page controller
+exports.getStoreBySlug = async (req, res, next) => {
+  const store = await Store.findOne({ slug: req.params.slug });
+  if (!store) {
+    return next();
+  }
+  res.render('store', { store, title: store.name });
+};
+
