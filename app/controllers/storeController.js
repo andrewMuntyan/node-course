@@ -28,6 +28,8 @@ exports.showEditStoreForm = async (req, res) => {
 };
 
 exports.updateStoreAction = async (req, res) => {
+  // set the location data to be the point
+  req.body.location.type = 'Point';
   // 1. find and update the store
   const store = await Store.findOneAndUpdate(
     { _id: req.params.id },
