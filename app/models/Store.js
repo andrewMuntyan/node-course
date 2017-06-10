@@ -1,9 +1,13 @@
+// db connector
 const mongoose = require('mongoose');
 
+// mongoose should use native promises
 mongoose.Promise = global.Promise;
 
+// middlewear for slugs
 const slug = require('slugs');
 
+// Store model
 const storeSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -39,6 +43,7 @@ const storeSchema = new mongoose.Schema({
   photo: String
 });
 
+// preSave hook for additional operations before save action
 storeSchema.pre('save', async function(next) {
   if (!this.isModified('name')) {
     // if we do not need to do anything with slug
@@ -54,5 +59,14 @@ storeSchema.pre('save', async function(next) {
   }
   next();
 });
+
+// Static method for Store model
+storeSchema.statics.getTagsList = function () {
+  return this.aggregate([
+    { $unwind: '$tags'},
+    { $group: { _id: '$tags', count: { $sum: 1 } } },
+    { $sort: { count: -1 } },
+  ]);
+};
 
 module.exports = mongoose.model('Store', storeSchema);

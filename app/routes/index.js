@@ -8,12 +8,12 @@ const { catchErrors } = require('../handlers/errorHandlers');
 const storeController = require('../controllers/storeController');
 
 
-// Display stores
+// Display stores page
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
 
 
-// add store form
+// Add Store page. add store form
 router.get(
   '/add',
   storeController.showAddStoreForm
@@ -27,7 +27,7 @@ router.post(
 );
 
 
-// edit store form
+// Edit Store page. edit store form
 router.get('/stores/:id/edit', catchErrors(storeController.showEditStoreForm));
 // edit store form action
 router.post(
@@ -37,8 +37,14 @@ router.post(
   catchErrors(storeController.updateStoreAction)
 );
 
-// display single store page
+
+// Single Store page. display single store page
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
+
+
+// Tags page
+router.get('/tags', catchErrors(storeController.getStoresByTag));
+router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 
 module.exports = router;

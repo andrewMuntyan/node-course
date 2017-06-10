@@ -1,7 +1,9 @@
 // db connector
 const mongoose = require('mongoose');
+
 // db model
 const Store = mongoose.model('Store');
+
 // uploader
 const multer = require('multer');
 const multerOptions = {
@@ -19,6 +21,7 @@ const multerOptions = {
 const jimp = require('jimp');
 const uuid = require('uuid');
 
+// Stores list page
 exports.getStores = async (req, res) => {
   // 1. Query database for list of stores
   const stores = await Store.find();
@@ -26,19 +29,20 @@ exports.getStores = async (req, res) => {
 };
 
 
+// Store add page
 exports.showAddStoreForm = (req, res) => {
   res.render('editStore', { title: 'Add Store'});
 };
 exports.createStoreAction = async (req, res) => {
   const store = await (new Store(req.body)).save();
-  req.flash('success', `Successfully created <a href="/stores/${store.slug}">${store.name}</a>. Care to leave review`);
+  req.flash('success', `Successfully created <a href="/store/${store.slug}">${store.name}</a>. Care to leave review`);
   res.redirect('/stores');
 };
 
-// upload middlewar
-exports.upload = multer(multerOptions).single('photo');
 
-// resize middlewar
+// upload imge middlewar
+exports.upload = multer(multerOptions).single('photo');
+// resize image middlewar
 exports.resize = async (req, res, next) => {
   // check if there is no new fire to resize
   if (!req.file) {
@@ -55,6 +59,7 @@ exports.resize = async (req, res, next) => {
 };
 
 
+// Store edit page
 exports.showEditStoreForm = async (req, res) => {
   // 1. Query database for store by id
   const store = await Store.findOne({ _id: req.params.id });
@@ -80,12 +85,20 @@ exports.updateStoreAction = async (req, res) => {
 };
 
 
-// display single store page controller
+// Single Store page. display single store page controller
 exports.getStoreBySlug = async (req, res, next) => {
   const store = await Store.findOne({ slug: req.params.slug });
   if (!store) {
     return next();
   }
   res.render('store', { store, title: store.name });
+};
+
+
+// Tags page
+exports.getStoresByTag = async (req, res) => {
+  const tags = await Store.getTagsList();
+  const tag = req.params.tag;
+  res.render('tag', { tags, title: 'Tags', tag: tag });
 };
 
