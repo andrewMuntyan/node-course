@@ -31,7 +31,7 @@ exports.showAddStoreForm = (req, res) => {
 };
 exports.createStoreAction = async (req, res) => {
   const store = await (new Store(req.body)).save();
-  req.flash('success', `Successfully created ${store.name}. Care to leave review`);
+  req.flash('success', `Successfully created <a href="/stores/${store.slug}">${store.name}</a>. Care to leave review`);
   res.redirect('/stores');
 };
 
