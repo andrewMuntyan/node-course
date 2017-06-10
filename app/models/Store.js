@@ -1,5 +1,6 @@
 // db connector
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 // mongoose should use native promises
 mongoose.Promise = global.Promise;
@@ -8,7 +9,7 @@ mongoose.Promise = global.Promise;
 const slug = require('slugs');
 
 // Store model
-const storeSchema = new mongoose.Schema({
+const storeSchema = new Schema({
   name: {
     type: String,
     trim: true,
