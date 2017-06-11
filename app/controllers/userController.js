@@ -18,7 +18,7 @@ exports.showRegisterForm = (req, res) => {
 };
 
 // middlewear for validation registration data
-exports.validationRegister = (req, res, next) => {
+exports.validateRegistrationData = (req, res, next) => {
   req.sanitizeBody('name');
   req.checkBody('name', 'You must supply the name').notEmpty();
   req.checkBody('email', 'That Email is not valid!').isEmail();
@@ -47,7 +47,7 @@ exports.doRegisterAction = async (req, res, next) => {
     email: req.body.email,
     name: req.body.name
   });
-  // add promise to passport methid
+  // add promise to passport register method
   const register = promisify(User.register, User);
   await register(user, req.body.password);
   next(); // pass controll to login method

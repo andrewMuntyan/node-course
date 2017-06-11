@@ -51,7 +51,8 @@ router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 // Login page
 router.get('/login', userController.showLoginForm);
-router.post('/login', authController.doAuthAction);
+router.post('/login', authController.doLoginAction);
+router.get('/logout', authController.doLogoutAction);
 
 
 // Register page
@@ -61,9 +62,9 @@ router.get('/register', userController.showRegisterForm);
 // 3. log them in
 router.post(
   '/register',
-  userController.validationRegister,
+  userController.validateRegistrationData,
   userController.doRegisterAction,
-  authController.doAuthAction
+  authController.doLoginAction
 );
 
 
