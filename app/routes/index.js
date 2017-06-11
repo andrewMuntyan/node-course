@@ -18,6 +18,7 @@ router.get('/stores', catchErrors(storeController.getStores));
 // Add Store page. add store form
 router.get(
   '/add',
+  authController.isLoggedIn,
   storeController.showAddStoreForm
 );
 // add store form action
@@ -30,7 +31,11 @@ router.post(
 
 
 // Edit Store page. edit store form
-router.get('/stores/:id/edit', catchErrors(storeController.showEditStoreForm));
+router.get(
+  '/stores/:id/edit',
+  authController.isLoggedIn,
+  catchErrors(storeController.showEditStoreForm)
+);
 // edit store form action
 router.post(
   '/add/:id',

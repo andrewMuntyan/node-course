@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 // mongoose should use native promises
 mongoose.Promise = global.Promise;
 
-// const md5 = require('md5');
+const md5 = require('md5');
 const validator = require('validator');
 // shows errors in nice way
 const mongodbErrorHandler = require('mongoose-mongodb-errors');
@@ -30,7 +30,14 @@ const userSchema = new Schema({
   },
 });
 
+// add register, authenticate, logout methods to User model
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 userSchema.plugin(mongodbErrorHandler);
+
+// virtual fields for User model. Calcolated on the fly
+userSchema.virtual('gravatar').get(function() {
+  const hash = md5(this.email);
+  return `https://gravatar.com/avatar/${hash}?s=200`;
+});
 
 module.exports = mongoose.model('User', userSchema);
