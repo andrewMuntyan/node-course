@@ -23,6 +23,7 @@ exports.validateRegistrationData = (req, res, next) => {
   req.checkBody('name', 'You must supply the name').notEmpty();
   req.checkBody('email', 'That Email is not valid!').isEmail();
   req.sanitizeBody('email').normalizeEmail({
+    gmail_remove_dots: false,
     remove_dots: false,
     remove_extention: false,
     gmail_remove_subaddress: false,
