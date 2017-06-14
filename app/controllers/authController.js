@@ -16,7 +16,7 @@ exports.doLogoutAction = (req, res) => {
 
 exports.isLoggedIn = (req, res, next) => {
   // if user is logged in go ahead
-  if (req.isAuthenticased) {
+  if (req.isAuthenticated) {
     next();
     return;
   }

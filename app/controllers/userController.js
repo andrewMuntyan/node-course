@@ -53,3 +53,25 @@ exports.doRegisterAction = async (req, res, next) => {
   await register(user, req.body.password);
   next(); // pass controll to login method
 };
+
+
+// Show account page
+exports.showAccountPage = (req, res) => {
+  res.render('account', { title: 'Edit Your Account'});
+};
+
+exports.doEditAccountAction = async (req, res) => {
+  const updates = {
+    name: req.body.name,
+    email: req.body.email
+  };
+
+  await User.findOneAndUpdate(
+    { _id: req.user._id },
+    { $set: updates },
+    { new: true, runValidators: true, context: 'query' }
+  );
+
+  req.flash('success', 'Updated the Profile!');
+  res.redirect('/account');
+};

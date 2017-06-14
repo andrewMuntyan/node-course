@@ -73,4 +73,15 @@ router.post(
 );
 
 
+// User account page
+router.get(
+  '/account',
+  authController.isLoggedIn,
+  userController.showAccountPage
+);
+
+// User account update action
+router.post('/account', catchErrors(userController.doEditAccountAction));
+
+
 module.exports = router;
