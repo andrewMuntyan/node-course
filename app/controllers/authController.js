@@ -34,8 +34,8 @@ exports.generateAndEmailToken = async (req, res) => {
   // 1. See if a user with that email exists
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    req.flash('error', 'No account with that email exists.')
-    return res. redirect('/login')
+    req.flash('error', 'No account with that email exists.');
+    return res. redirect('/login');
   }
 
   // 2. Set reset tokens and expiry on their account
@@ -47,7 +47,7 @@ exports.generateAndEmailToken = async (req, res) => {
   req.flash('success', `You have beed emailed a <a href=${resetUrl}>password reset link</a>.`);
   // 4. Redirect to login page
   res.redirect('/login');
-}
+};
 
 exports.showResetPasswordForm = async (req, res) => {
   const user = await User.findOne({
@@ -56,13 +56,13 @@ exports.showResetPasswordForm = async (req, res) => {
   });
 
   if (!user) {
-    req.flash('error', 'Password reset token is invalid or has expired')
-    return res. redirect('/login')
+    req.flash('error', 'Password reset token is invalid or has expired');
+    return res. redirect('/login');
   }
 
   // show the reset password form
   res.render('reset', { title: 'Reset your Password' });
-}
+};
 // check if new password is ok
 exports.confirmedPasswords = (req, res, next) => {
   if (req.body.password === req.body['password-confirm']) {
@@ -70,9 +70,9 @@ exports.confirmedPasswords = (req, res, next) => {
     return;
   }
 
-  req.flash('error', 'Passwords do not match')
-  res.redirect('back')
-}
+  req.flash('error', 'Passwords do not match');
+  res.redirect('back');
+};
 
 exports.updatePassword = async (req, res) => {
   const user = await User.findOne({
@@ -81,8 +81,8 @@ exports.updatePassword = async (req, res) => {
   });
 
   if (!user) {
-    req.flash('error', 'Password reset token is invalid or has expired')
-    return res. redirect('/login')
+    req.flash('error', 'Password reset token is invalid or has expired');
+    return res. redirect('/login');
   }
 
   const setPassword = promisify(user.setPassword, user);
@@ -93,4 +93,4 @@ exports.updatePassword = async (req, res) => {
   await req.login(updatedUser);
   req.flash('success', 'Password has been reset!');
   res.redirect('/login');
-}
+};
