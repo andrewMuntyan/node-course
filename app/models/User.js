@@ -28,6 +28,8 @@ const userSchema = new Schema({
     trim: true,
     required: 'Please supply a name',
   },
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 });
 
 // add register, authenticate, logout methods to User model

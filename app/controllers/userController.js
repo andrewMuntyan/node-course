@@ -60,6 +60,7 @@ exports.showAccountPage = (req, res) => {
   res.render('account', { title: 'Edit Your Account'});
 };
 
+// Rdit account action
 exports.doEditAccountAction = async (req, res) => {
   const updates = {
     name: req.body.name,

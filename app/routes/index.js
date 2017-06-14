@@ -84,4 +84,17 @@ router.get(
 router.post('/account', catchErrors(userController.doEditAccountAction));
 
 
+// Reset password flow
+// 1. email reset link
+router.post('/account/forgot', catchErrors(authController.generateAndEmailToken));
+// 2. process url with secret token
+// 2.1 show reset password form
+router.get('/account/reset/:token', catchErrors(authController.showResetPasswordForm));
+// 2.1 do reset password action
+router.post(
+  '/account/reset/:token', 
+  authController.confirmedPasswords,
+  catchErrors(authController.updatePassword)
+);
+
 module.exports = router;
