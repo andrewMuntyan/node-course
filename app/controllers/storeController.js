@@ -74,9 +74,9 @@ exports.showEditStoreForm = async (req, res) => {
 
 const confirmOwner = (store, user) => {
   if (!store.author.equals(user._id)) {
-    throw Error('You must own a store in order to edit it!')
+    throw Error('You must own a store in order to edit it!');
   }
-}
+};
 
 exports.updateStoreAction = async (req, res) => {
   // set the location data to be the point
@@ -92,14 +92,14 @@ exports.updateStoreAction = async (req, res) => {
   // ).exec();
   // 1. find and update the store
   await Store.findById(req.params.id, async (err, store) => {
-      if (store) {
-        Object.assign(store, req.body)
-        const updatedStore = await store.save({ validateBeforeSave: true });
+    if (store) {
+      Object.assign(store, req.body);
+      const updatedStore = await store.save({ validateBeforeSave: true });
         // 2. redirect to the store and tell it worked
-        req.flash('success', `Successfuly updtaed <strong>${updatedStore.name}</strong> <a href="/store/${updatedStore.slug}">View Store -></a>`);
-        res.redirect(`/stores/${updatedStore._id}/edit`);
-      }
- });
+      req.flash('success', `Successfuly updtaed <strong>${updatedStore.name}</strong> <a href="/store/${updatedStore.slug}">View Store -></a>`);
+      res.redirect(`/stores/${updatedStore._id}/edit`);
+    }
+  });
   // // 2. redirect to the store and tell it worked
   // req.flash('success', `Successfuly updtaed <strong>${store.name}</strong> <a href="/stores/${store.slug}">View Store -></a>`);
   // res.redirect(`/stores/${store._id}/edit`);
