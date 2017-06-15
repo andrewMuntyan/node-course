@@ -18,7 +18,7 @@ const generateHtml = (filename, options = {}) => {
   // put inlined css intp html
   const inlined = juice(html);
   return inlined;
-}
+};
 
 exports.send = async (options) => {
   const html = generateHtml(options.filename, options);
@@ -34,4 +34,4 @@ exports.send = async (options) => {
   const sendMail = promisify(transport.sendMail, transport);
 
   return sendMail(mailOptions);
-}
+};

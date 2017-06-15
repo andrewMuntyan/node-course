@@ -51,7 +51,7 @@ exports.generateAndEmailToken = async (req, res) => {
     resetURL,
     filename: 'password-reset',
   });
-  req.flash('success', `You have beed emailed a password reset link.`);
+  req.flash('success', 'You have beed emailed a password reset link.');
   // 4. Redirect to login page
   res.redirect('/login');
 };
