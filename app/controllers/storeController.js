@@ -78,7 +78,7 @@ const confirmOwner = (store, user) => {
   }
 };
 
-exports.updateStoreAction = async (req, res) => {
+exports.updateStoreAction = async (req, res, next) => {
   // set the location data to be the point
   req.body.location.type = 'Point';
   // // 1. find and update the store
@@ -91,13 +91,16 @@ exports.updateStoreAction = async (req, res) => {
   //   } 
   // ).exec();
   // 1. find and update the store
-  await Store.findById(req.params.id, async (err, store) => {
+  // await Store.findById(req.params.id, async (err, store) => {
+  await Store.findById('5942f3b3208b746de4a151f4', async (err, store) => {
     if (store) {
       Object.assign(store, req.body);
       const updatedStore = await store.save({ validateBeforeSave: true });
         // 2. redirect to the store and tell it worked
       req.flash('success', `Successfuly updtaed <strong>${updatedStore.name}</strong> <a href="/store/${updatedStore.slug}">View Store -></a>`);
       res.redirect(`/stores/${updatedStore._id}/edit`);
+    } else {
+      return next(Error('Cant find Store'));
     }
   });
   // // 2. redirect to the store and tell it worked
