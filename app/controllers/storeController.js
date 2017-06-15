@@ -92,7 +92,7 @@ exports.updateStoreAction = async (req, res, next) => {
   // ).exec();
   // 1. find and update the store
   // await Store.findById(req.params.id, async (err, store) => {
-  await Store.findById('5942f3b3208b746de4a151f4', async (err, store) => {
+  await Store.findById(req.params.id, async (err, store) => {
     if (store) {
       Object.assign(store, req.body);
       const updatedStore = await store.save({ validateBeforeSave: true });
