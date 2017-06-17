@@ -137,3 +137,25 @@ exports.getStoresByTag = async (req, res) => {
   res.render('tag', { tags, stores, title: 'Tags', tag: tag });
 };
 
+
+// API methods
+exports.searchStores = async (req, res) => {
+
+  const stores = await Store
+  // 1 param - search query
+  // 2 param - metadata, add hidden fields
+  .find({
+    $text: {
+      $search: req.query.q,
+    }
+  }, {
+    score: { $meta: 'textScore' }
+  })
+  .sort({
+    score: { $meta: 'textScore'}
+  })
+  .limit(5)
+  res.json(stores)
+}
+
+

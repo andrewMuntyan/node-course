@@ -75,4 +75,10 @@ storeSchema.statics.getTagsList = function () {
   ]);
 };
 
+// Define indexes for this model
+storeSchema.index({
+  name: 'text',
+  description: 'text',
+})
+
 module.exports = mongoose.model('Store', storeSchema);

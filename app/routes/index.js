@@ -97,4 +97,10 @@ router.post(
   catchErrors(authController.updatePassword)
 );
 
+
+/*
+  API endpoints
+*/
+router.get('/api/search', catchErrors(storeController.searchStores))
+
 module.exports = router;
