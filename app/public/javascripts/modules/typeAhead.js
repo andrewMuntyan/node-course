@@ -7,7 +7,7 @@ function searchResultsHTML(stores) {
       <a href="/store/${store.slug}" class="search__result">
         <strong>${store.name}</strong>
       </a>
-    `
+    `;
   }).join('');
 }
 
@@ -25,7 +25,7 @@ function typeAhead(search){
 
     if (!searchText) {
       searchResults.style.display = 'none';
-      return
+      return;
     }
 
     searchResults.style.display = 'block';
@@ -47,8 +47,8 @@ function typeAhead(search){
       })
       .catch(err => {
         console.error(err) // eslint-disable-line
-      })
-  })
+      });
+  });
 
   // handle keyboard navigation
   searchInput.on('keyup', (e) => {
@@ -62,7 +62,7 @@ function typeAhead(search){
     if (e.keyCode === 40 && current) {
       next = current.nextElementSibling || items[0];
     } else if (e.keyCode === 40) {
-      next = items[0]
+      next = items[0];
     } else if (e.keyCode === 38 && current) {
       next = current.previousElementSibling || items[items.length - 1];
     } else if (e.keyCode === 38) {
@@ -76,7 +76,7 @@ function typeAhead(search){
       current.classList.remove(activeClass);
     }
     next.classList.add(activeClass);
-  })
-};
+  });
+}
 
 export default typeAhead;
