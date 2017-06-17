@@ -178,7 +178,7 @@ exports.mapStores = async (req, res) => {
     .select('slug name description location')
     .limit(10);
 
-  res.json(stores)
+  res.json(stores);
 };
 
 
