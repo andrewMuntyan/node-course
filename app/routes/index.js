@@ -107,11 +107,20 @@ router.post(
 /*
   API endpoints
 */
+
+// store searching
 router.get('/api/search', catchErrors(storeController.searchStores));
 
+// gets stores by location
 router.get(
   '/api/stores/near',
   catchErrors(storeController.mapStores)
+);
+
+// like the store 
+router.post(
+  '/api/stores/:id/heart',
+  catchErrors(storeController.heartStore)
 );
 
 module.exports = router;

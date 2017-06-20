@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 // db model
 const Store = mongoose.model('Store');
+const User = mongoose.model('User');
 
 // uploader
 const multer = require('multer');
@@ -161,6 +162,7 @@ exports.searchStores = async (req, res) => {
   res.json(stores);
 };
 
+// request for store by location
 exports.mapStores = async (req, res) => {
   const { query: { lng, lat } } = req;
   const coordinates = [lng, lat].map(parseFloat);
@@ -182,6 +184,27 @@ exports.mapStores = async (req, res) => {
     .limit(10);
 
   res.json(stores);
+};
+
+
+// post user "like" for store
+exports.heartStore = async (req, res) => {
+  const hearts = req.user.hearts.map(obj => obj.toString());
+  const {
+    params: {
+      id: storeId,
+    },
+    user: {
+      id: userId
+    }
+  } = req;
+  const operator = hearts.includes(storeId) ? '$pull' : '$addToSet';
+  const user = await User.findOneAndUpdate(
+    userId,
+    { [operator]: { hearts: storeId } },
+    { new: true }
+  );
+  res.json(user);
 };
 
 
