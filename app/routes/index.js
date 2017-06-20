@@ -54,6 +54,10 @@ router.get('/tags', catchErrors(storeController.getStoresByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag));
 
 
+// Show map page
+router.get('/map', storeController.mapPage);
+
+
 // Login page
 router.get('/login', userController.showLoginForm);
 router.post('/login', authController.doLoginAction);

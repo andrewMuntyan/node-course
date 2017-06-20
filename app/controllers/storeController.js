@@ -28,6 +28,9 @@ exports.getStores = async (req, res) => {
   res.render('stores', { title: 'Stores', stores});
 };
 
+exports.mapPage = (req, res) => {
+  res.render('map', { title: 'Map' });
+};
 
 // Store add page
 exports.showAddStoreForm = (req, res) => {
@@ -168,14 +171,14 @@ exports.mapStores = async (req, res) => {
           type: 'Point',
           coordinates
         },
-        $maxDistance: 100// 10km
+        $maxDistance: 100000// 100km
       }
     }
   };
 
   const stores = await Store
     .find(q)
-    .select('slug name description location')
+    .select('slug name description location photo')
     .limit(10);
 
   res.json(stores);
