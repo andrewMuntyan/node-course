@@ -141,6 +141,15 @@ exports.getStoresByTag = async (req, res) => {
   res.render('tag', { tags, stores, title: 'Tags', tag: tag });
 };
 
+// Hearts page
+exports.getHearts = async (req, res) => {
+  const stores = await Store.find({
+    _id: { $in: req.user.hearts }
+  });
+
+  res.render('stores', { title: 'Hearted Stores', stores });
+};
+
 
 // API methods
 exports.searchStores = async (req, res) => {

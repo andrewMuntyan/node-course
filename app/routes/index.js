@@ -102,6 +102,13 @@ router.post(
 );
 
 
+// Show 'likes' page
+router.get(
+  '/hearts',
+  authController.isLoggedIn,
+  catchErrors(storeController.getHearts)
+);
+
 
 
 /*
