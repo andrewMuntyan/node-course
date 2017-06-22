@@ -118,7 +118,7 @@ exports.getStoreBySlug = async (req, res, next) => {
   // .populate is for getting author property filled with full information about author.
   // without it we just have author: _idString (see /models/Store)
   // const store = await Store.findOne({ slug: req.params.slug }).populate('author');
-  const store = await Store.findOne({ slug: req.params.slug });
+  const store = await Store.findOne({ slug: req.params.slug }).populate('author reviews');
   if (!store) {
     return next();
   }

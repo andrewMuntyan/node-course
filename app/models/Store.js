@@ -47,6 +47,9 @@ const storeSchema = new Schema({
     ref: 'User',
     required: 'You must supply an author'
   }
+}, {
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // preSave hook for additional operations before save action
@@ -66,7 +69,7 @@ storeSchema.pre('save', async function(next) {
   next();
 });
 
-// Static method for Store model
+// Static methods for Store model
 storeSchema.statics.getTagsList = function () {
   return this.aggregate([
     { $unwind: '$tags'},
@@ -74,6 +77,13 @@ storeSchema.statics.getTagsList = function () {
     { $sort: { count: -1 } },
   ]);
 };
+
+// find reviews where stores _id property === reviews store property
+storeSchema.virtual('reviews', {
+  ref: 'Review', // what model to link
+  localField: '_id', // wich field on the store
+  foreignField: 'store' // wich field on the review
+});
 
 // Define indexes for this model
 storeSchema.index({
