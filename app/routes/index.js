@@ -118,6 +118,9 @@ router.post(
   catchErrors(reviewController.doAddReviewAction)
 );
 
+// Show top stores page
+router.get('/top', catchErrors(storeController.getTopStores));
+
 
 /*
   API endpoints
