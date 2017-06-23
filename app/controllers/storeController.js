@@ -213,15 +213,17 @@ exports.heartStore = async (req, res) => {
       id: storeId,
     },
     user: {
-      id: userId
+      _id: userId
     }
   } = req;
+
   const operator = hearts.includes(storeId) ? '$pull' : '$addToSet';
-  const user = await User.findOneAndUpdate(
+  const user = await User.findByIdAndUpdate(
     userId,
     { [operator]: { hearts: storeId } },
     { new: true }
   );
+
   res.json(user);
 };
 
