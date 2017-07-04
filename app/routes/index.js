@@ -14,6 +14,7 @@ const reviewController = require('../controllers/reviewController');
 // Display stores page
 router.get('/', catchErrors(storeController.getStores));
 router.get('/stores', catchErrors(storeController.getStores));
+router.get('/stores/page/:page', catchErrors(storeController.getStores));
 
 
 // Add Store page. add store form
